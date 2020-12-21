@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <canvas id="inputCanvas" width="320" height="240" style="display:none"></canvas>
+    <video id="inputVideo" autoplay loop></video>
+    <script type="text/javascript">
+        var videoInput = document.getElementById('inputVideo');
+        var canvasInput = document.getElementById('inputCanvas');
+</script>
+	<head>
+		<title>My first three.js app</title>
+		<style>
+			body { margin: 0; }
+		</style>
+	</head>
+	<body>
+		
+		<script src="./js/Three.js"></script>
+		<script src="./js/Stats.js"></script>
+		<script src="./js/Detector.js"></script>
+		<script src="./js/headtrackr.js"></script>
+
+		<script>
+			
+
+			const scene = new THREE.Scene();
+			scene.background = new THREE.Color(0x000000);
+			const camera = new THREE.PerspectiveCamera( 23, window.innerWidth / window.innerHeight, 1, 100000 );
+			const renderer = new THREE.WebGLRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.body.appendChild( renderer.domElement );
+
+
+
+			const geometry2 = new THREE.PlaneGeometry( 500, 500, 5,15);
+			const material2 = new THREE.MeshBasicMaterial({color:"red", opacity: 0,transparent: true,});
+			const virtualWindow = new THREE.Mesh( geometry2, material2 );
+			virtualWindow.position.z -= 50
+			scene.add(virtualWindow);
+
+			var plane;
+
+			//top wall
+			var plane1 = new THREE.Mesh( new THREE.PlaneGeometry( 500, 200, 5, 15 ), new THREE.MeshBasicMaterial( { color: 0xcccccc, wireframe : true } ) );
+			plane1.rotation.x = Math.PI/2;
+			plane1.position.y = 250;
+			plane1.position.z = 50-100;
+			scene.add( plane1 );
+			
+			//left wall
+			var plane2 = new THREE.Mesh( new THREE.PlaneGeometry( 200, 500, 15, 5 ), new THREE.MeshBasicMaterial( { color: 0xcccccc, wireframe : true } ) );
+			plane2.rotation.y = Math.PI/2;
+			plane2.position.x = -250;
+			plane2.position.z = 50-100;
+			scene.add( plane2 );
+			
+			//right wall
+			var plane3 = new THREE.Mesh( new THREE.PlaneGeometry( 200, 500, 15, 5 ), new THREE.MeshBasicMaterial( { color: 0xcccccc, wireframe : true	} ) );
+			plane3.rotation.y = -Math.PI/2;
+			plane3.position.x = 250;
+			plane3.position.z = 50-100;
+			scene.add( plane3 );
+			
+			//bottom wall
+			var plane4 = new THREE.Mesh( new THREE.PlaneGeometry( 500, 200, 5, 15 ), new THREE.MeshBasicMaterial( { color: 0xcccccc, wireframe : true	} ) );
+			plane4.rotation.x = -Math.PI/2;
+			plane4.position.y = -250;
+			plane4.position.z = 50-100;
+			scene.add( plane4 );
+
+
+			camera.position.z = 6000;
+			//getLight(scene);
+
+			var stats = new Stats();
+			stats.domElement.style.position = 'absolute';
+			stats.domElement.style.top = '0px';
+			document.body.appendChild( stats.domElement );
+
+			function animate() {
+				renderer.render(scene, camera);
+				stats.update();
+				requestAnimationFrame( animate );
+			}
+
+			animate();
+
+			headtrackr.controllers.three.MyCameraControl(camera,virtualWindow, [0,0,0]);
+			
+			// Face detection setup
+			var htracker = new headtrackr.Tracker({altVideo : {ogv : "./media/capture5.ogv", mp4 : "./media/capture5.mp4"}});
+			//var htracker = new headtrackr.Tracker({ui : true, headPosition : true});
+			htracker.init(videoInput, canvasInput);
+			htracker.start();
+			
+			document.addEventListener('headtrackingEvent', function(event) {}, false);
+		</script>
+	</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+    <script src="headtrackr/headtrackr.js"></script>
+    <canvas id="inputCanvas" width="320" height="240" style="display:none"></canvas>
+    <video id="inputVideo" autoplay loop style="display:none"></video>
+    <script type="text/javascript">
+        var videoInput = document.getElementById('inputVideo');
+        var canvasInput = document.getElementById('inputCanvas');
+        var htracker = new headtrackr.Tracker({ui : true, headPosition : true});
+        htracker.init(videoInput, canvasInput);
+        htracker.start();
+</script>
+	<head>
+		<title>My first three.js app</title>
+		<style>
+			body { margin: 0; }
+		</style>
+	</head>
+	<body>
+		<script src="three.js/build/three.js"></script>
+		<script>
+
+
+
+	function onWindowResize() {
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+			}
+
+		var scene = new THREE.Scene();  
+		var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 ); 
+
+		var renderer = new THREE.WebGLRenderer(); 
+		renderer.setSize( window.innerWidth, window.innerHeight ); 
+		document.body.appendChild( renderer.domElement );
+
+		var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+		var material = new THREE.MeshBasicMaterial( { color: "red" } );
+		var cube = new THREE.Mesh( geometry, material );
+		scene.add( cube );
+		camera.position.z = 5;
+		/*
+		var geometry2 = new THREE.BoxGeometry( 10, 1, 1 );
+		var material2 = new THREE.MeshBasicMaterial( { color: "blue" } );
+		var cube2 = new THREE.Mesh( geometry2, material2 );
+		scene.add( cube2 );
+		
+
+		// White line on cube
+		let geo = new THREE.EdgesGeometry( cube.geometry );
+		let mat = new THREE.LineBasicMaterial( { color: "white", linewidth: 2 } );
+		let wireframe = new THREE.LineSegments( geo, mat );
+		wireframe.renderOrder = 1; // make sure wireframes are rendered 2nd
+		scene.add(wireframe);
+
+		let geo2 = new THREE.EdgesGeometry( cube2.geometry );
+		let mat2 = new THREE.LineBasicMaterial( { color: "white", linewidth: 2 } );
+		let wireframe2 = new THREE.LineSegments( geo2, mat2 );
+		wireframe2.renderOrder = 1; // make sure wireframes are rendered 2nd
+		scene.add(wireframe2);
+
+		//cub2.position.y = 5;
+		//wireframe2.position.y = 5;
+		*/
+
+		const raycaster = new THREE.Raycaster();
+		const mouse = new THREE.Vector2();
+
+		function onMouseMove( event ) {
+
+			// calculate mouse position in normalized device coordinates
+			// (-1 to +1) for both components
+
+			mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+			mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+		}
+
+		//Create an render loop to allow animation
+		var render = function () {
+			requestAnimationFrame( render );
+
+			cube.rotation.x += 0.01;
+
+			cube.rotation.y += 0.01;
+/*
+			wireframe.rotation.x += 0.01;
+			wireframe.rotation.y += 0.01;
+*/
+		// update the picking ray with the camera and mouse position
+			raycaster.setFromCamera( mouse, camera );
+
+			// calculate objects intersecting the picking ray
+			const intersects = raycaster.intersectObjects( scene.children );
+			console.log(intersects.length)
+			if (intersects.length == 1 ) {
+				//console.log(intersects[ i ].object)
+				intersects[ 0 ].object.material.color.set( "green" );
+
+			}
+			else
+			{
+				cube.material.color.set("red")
+			}
+
+			
+			renderer.render(scene, camera);
+		};
+
+		window.addEventListener( 'mousemove', onMouseMove, false );
+		window.requestAnimationFrame(render);
+
+		render();
+
+		</script>
+		<script>
+		function toggleFullScreen() {
+  if (!document.fullscreenElement) {
+	  var elem = document.getElementById("")
+      document.documentElement.requestFullscreen();
+	  onWindowResize()
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+	  onWindowResize()
+
+    }
+  }
+}
+		document.addEventListener("keydown", function(e) {
+  if (e.keyCode == 13) {
+    toggleFullScreen();
+  }
+}, false);
+   
+    </script>
+	</body>
+</html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <canvas id="inputCanvas" width="320" height="240" style="display:none"></canvas>
-    <video id="inputVideo" autoplay loop></video>
+    <video id="inputVideo" autoplay loop style="display:none"></video>
     <script type="text/javascript">
         var videoInput = document.getElementById('inputVideo');
 		var canvasInput = document.getElementById('inputCanvas');
@@ -58,31 +58,31 @@
 			var plane;
 
 			//top wall
-			var plane1 = new THREE.Mesh( new THREE.PlaneGeometry( size_x, profondeur, 5, 15 ), new THREE.MeshBasicMaterial( { color: 0x00000000, wireframe : true } ) );
+			var plane1 = new THREE.Mesh( new THREE.PlaneGeometry( size_x, profondeur, 5, 10 ), new THREE.MeshBasicMaterial( { color: 0x00000000, wireframe : true } ) );
 			plane1.rotation.x = Math.PI/2;
 			plane1.position.y = size_y/2;
-			plane1.position.z = 50-profondeur/2;
+			plane1.position.z = -50-profondeur/2;
 			scene.add( plane1 );
 			
 			//left wall
-			var plane2 = new THREE.Mesh( new THREE.PlaneGeometry( profondeur, size_y, 15, 5 ), new THREE.MeshBasicMaterial( { color: 0x00000000, wireframe : true } ) );
+			var plane2 = new THREE.Mesh( new THREE.PlaneGeometry( profondeur, size_y, 10, 5 ), new THREE.MeshBasicMaterial( { color: 0x00000000, wireframe : true } ) );
 			plane2.rotation.y = Math.PI/2;
 			plane2.position.x = -size_x/2;
-			plane2.position.z = 50-profondeur/2;
+			plane2.position.z = -50-profondeur/2;
 			scene.add( plane2 );
 			
 			//right wall
-			var plane3 = new THREE.Mesh( new THREE.PlaneGeometry( profondeur, size_y, 15, 5 ), new THREE.MeshBasicMaterial( { color: 0x00000000, wireframe : true	} ) );
+			var plane3 = new THREE.Mesh( new THREE.PlaneGeometry( profondeur, size_y, 10, 5 ), new THREE.MeshBasicMaterial( { color: 0x00000000, wireframe : true	} ) );
 			plane3.rotation.y = -Math.PI/2;
 			plane3.position.x = size_x/2;
-			plane3.position.z = 50-profondeur/2;
+			plane3.position.z = -50-profondeur/2;
 			scene.add( plane3 );
 			
 			//bottom wall
-			var plane4 = new THREE.Mesh( new THREE.PlaneGeometry( size_x, profondeur, 5, 15 ), new THREE.MeshBasicMaterial( { color: 0x00000000, wireframe : true	} ) );
+			var plane4 = new THREE.Mesh( new THREE.PlaneGeometry( size_x, profondeur, 5, 10 ), new THREE.MeshBasicMaterial( { color: 0x00000000, wireframe : true	} ) );
 			plane4.rotation.x = -Math.PI/2;
 			plane4.position.y = -size_y/2;
-			plane4.position.z = 50-profondeur/2;
+			plane4.position.z = -50-profondeur/2;
 			scene.add( plane4 );
 
 
@@ -113,7 +113,8 @@
 			var htracker = new headtrackr.Tracker({ui : true, headPosition : true});
 			htracker.init(videoInput, canvasInput);
 			htracker.start();
-			document.addEventListener('headtrackingEvent', function(event) {}, false);
+			document.addEventListener('headtrackingEvent', function(event) {
+			}, false);
 		</script>
 	</body>
 </html>

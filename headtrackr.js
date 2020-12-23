@@ -2087,8 +2087,14 @@ headtrackr.controllers.three.MyCameraControl = function(camera, virtualWindow, f
 	
 	document.addEventListener('headtrackingEvent', function(event) {
     
-    camera.position.x = ((event.x)/20)*500 //e.x 
-    camera.position.y = -(0.5- (event.y)/20) * 274
+    //camera.position.x = fixedPosition[0] + ((event.x)/40)*500
+    //camera.position.y = fixedPosition[1] -(0.5- (event.y)/40) * 274
+    console.log(event.x , event.y, event.z)
+
+    camera.position.x = fixedPosition[0] + (event.x * 25 * 0.5 );
+		camera.position.y = fixedPosition[1] + (event.y * 27 * 0.5 );
+    //camera.position.z = fixedPosition[2] + (event.z * 27);
+    camera.position.z = fixedPosition[2] + (event.z * 16);
     
     setAsymmetricFrustum(camera, virtualWindow)
 		

@@ -21,7 +21,7 @@
 			
 			function getLight(scene) {
 				var light = new THREE.PointLight(0xffffff, 10, 0);
-				light.position.set(1, 1, 1);
+				light.position.set(1, 1, 100);
 				scene.add(light);
 
 				var ambientLight = new THREE.AmbientLight(0x111111);
@@ -44,15 +44,12 @@
 			var size_y = 274//Math.ceil((500*17)/31); //window.innerHeight;
 			var size_z = Math.ceil((500*50)/31);
 
-			console.log(size_x, size_y,size_z)
-			console.log(window.innerWidth, window.innerHeight);
-
 
 
 			const geometry2 = new THREE.BoxGeometry( size_x, size_y, 0);
 			const material2 = new THREE.MeshBasicMaterial({color:"red", opacity: 0,transparent: true,});
 			const virtualWindow = new THREE.Mesh( geometry2, material2 );
-			virtualWindow.position.z -= 50
+			virtualWindow.position.z = 0
 			scene.add( virtualWindow );
 
 			var plane;
@@ -61,35 +58,35 @@
 			var plane1 = new THREE.Mesh( new THREE.PlaneGeometry( size_x, profondeur, 5, 10 ), new THREE.MeshBasicMaterial( { color: 0x00000000, wireframe : true } ) );
 			plane1.rotation.x = Math.PI/2;
 			plane1.position.y = size_y/2;
-			plane1.position.z = -50-profondeur/2;
+			plane1.position.z = -profondeur/2;
 			scene.add( plane1 );
 			
 			//left wall
 			var plane2 = new THREE.Mesh( new THREE.PlaneGeometry( profondeur, size_y, 10, 5 ), new THREE.MeshBasicMaterial( { color: 0x00000000, wireframe : true } ) );
 			plane2.rotation.y = Math.PI/2;
 			plane2.position.x = -size_x/2;
-			plane2.position.z = -50-profondeur/2;
+			plane2.position.z = -profondeur/2;
 			scene.add( plane2 );
 			
 			//right wall
 			var plane3 = new THREE.Mesh( new THREE.PlaneGeometry( profondeur, size_y, 10, 5 ), new THREE.MeshBasicMaterial( { color: 0x00000000, wireframe : true	} ) );
 			plane3.rotation.y = -Math.PI/2;
 			plane3.position.x = size_x/2;
-			plane3.position.z = -50-profondeur/2;
+			plane3.position.z = -profondeur/2;
 			scene.add( plane3 );
 			
 			//bottom wall
 			var plane4 = new THREE.Mesh( new THREE.PlaneGeometry( size_x, profondeur, 5, 10 ), new THREE.MeshBasicMaterial( { color: 0x00000000, wireframe : true	} ) );
 			plane4.rotation.x = -Math.PI/2;
 			plane4.position.y = -size_y/2;
-			plane4.position.z = -50-profondeur/2;
+			plane4.position.z = -profondeur/2;
 			scene.add( plane4 );
 
 
 			let loader = new GLTFLoader();
 			loader.load('model/scene.gltf', function(gltf){
 				scene.add(gltf.scene);
-				gltf.scene.position.z = -50
+				gltf.scene.position.z = 0
 				gltf.scene.scale.set(1,1,1);
 				gltf.scene.rotation.y = 90 * Math.PI / 180;
 			});
@@ -108,7 +105,7 @@
 			};
 
 			animate();
-			headtrackr.controllers.three.MyCameraControl(camera,virtualWindow, [0,0,size_z]);
+			headtrackr.controllers.three.MyCameraControl(camera,virtualWindow, [0,0,0]);
 
 			var htracker = new headtrackr.Tracker({ui : true, headPosition : true});
 			htracker.init(videoInput, canvasInput);

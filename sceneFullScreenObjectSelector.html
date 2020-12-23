@@ -1,8 +1,19 @@
 <!DOCTYPE html>
 <html>
-    <script src="headtrackr/headtrackr.js"></script>
+<style>
+
+</style>
+    <script src="../headtrackr/headtrackr.js"></script>
     <canvas id="inputCanvas" width="320" height="240" style="display:none"></canvas>
-    <video id="inputVideo" autoplay loop style="display:none"></video>
+    	
+		 <video id="inputVideo" autoplay loop style="
+	width:320px;
+height:240px;
+position:absolute;
+left:20%;
+margin-left:-300px;
+top:30%;
+margin-top:-200px"></video>
     <script type="text/javascript">
         var videoInput = document.getElementById('inputVideo');
         var canvasInput = document.getElementById('inputCanvas');
@@ -17,6 +28,8 @@
 		</style>
 	</head>
 	<body>
+	<img src="pleinecranarrow.png" style="width:20px;
+height:20px; position:absolute; left:90%" onClick="toggleFullScreen(); "></img>
 		<script src="three.js/build/three.js"></script>
 		<script>
 
@@ -98,9 +111,7 @@
 			const intersects = raycaster.intersectObjects( scene.children );
 			console.log(intersects.length)
 			if (intersects.length == 1 ) {
-				//console.log(intersects[ i ].object)
 				intersects[ 0 ].object.material.color.set( "green" );
-
 			}
 			else
 			{
@@ -118,23 +129,39 @@
 
 		</script>
 		<script>
-		function toggleFullScreen() {
-  if (!document.fullscreenElement) {
-	  var elem = document.getElementById("")
-      document.documentElement.requestFullscreen();
-	  onWindowResize()
-  } else {
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-	  onWindowResize()
-
-    }
-  }
-}
+		function sleep(ms) {
+			return new Promise(resolve => setTimeout(resolve, ms));
+		}
+		async function toggleFullScreen() {
+  			if (!document.fullscreenElement) {
+				var elem = document.getElementById("")
+				document.documentElement.requestFullscreen();
+			} else {
+				if (document.exitFullscreen) {
+				document.exitFullscreen();
+				}
+  			}
+			  await sleep(500);
+			onWindowResize()
+		}
 		document.addEventListener("keydown", function(e) {
-  if (e.keyCode == 13) {
-    toggleFullScreen();
-  }
+			if (e.keyCode == 70) {
+				
+				onWindowResize()
+			}
+			if (e.keyCode == 65)
+			{
+				var video = document.getElementById("inputVideo")
+				if (video.style.display === "none"){
+					video.style.display = ""
+				}
+				else{
+					video.style.display = "none"
+				}
+
+			onWindowResize()
+			}
+
 }, false);
    
     </script>

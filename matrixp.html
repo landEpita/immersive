@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <canvas id="inputCanvas" width="320" height="240" style="display:none"></canvas>
-    <video id="inputVideo" autoplay loop></video>
+    <video id="inputVideo" autoplay loop style="display:none"></video>
     <script type="text/javascript">
         var videoInput = document.getElementById('inputVideo');
 		var canvasInput = document.getElementById('inputCanvas');
@@ -113,7 +113,8 @@
 			var htracker = new headtrackr.Tracker({ui : true, headPosition : true});
 			htracker.init(videoInput, canvasInput);
 			htracker.start();
-			document.addEventListener('headtrackingEvent', function(event) {}, false);
+			document.addEventListener('headtrackingEvent', function(event) {
+			}, false);
 		</script>
 	</body>
 </html>

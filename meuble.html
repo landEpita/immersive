@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+    <canvas id="inputCanvas" width="320" height="240" style="display:none"></canvas>
+    <video id="inputVideo" autoplay loop></video>
+    <script type="text/javascript">
+        var videoInput = document.getElementById('inputVideo');
+		var canvasInput = document.getElementById('inputCanvas');
+</script>
+	<head>
+		<title>My first three.js app</title>
+		<style>
+			body { margin: 0; }
+		</style>
+	</head>
+	<body>
+		<script src="three.js/build/three.js"></script>
+		<script src="./headtrackr.js"></script>
+		<script src="./Stats.js"></script>
+		<script type="module">
+			import { GLTFLoader } from './three.js/examples/jsm/loaders/GLTFLoader.js';
+			
+			function getLight(scene) {
+				var light = new THREE.PointLight(0xffffff, 4, 0);
+				light.position.set(1, 1, 1);
+				scene.add(light);
+
+				var ambientLight = new THREE.AmbientLight(0x111111);
+				scene.add(ambientLight);
+				return light;
+			}
+
+			const scene = new THREE.Scene();
+			scene.background = new THREE.Color(0xFFFFFFFF);
+			const camera = new THREE.PerspectiveCamera( 23, window.innerWidth / window.innerHeight, 1, 100000 );
+			const renderer = new THREE.WebGLRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.body.appendChild( renderer.domElement );
+
+			var quotient = 31/17;
+			
+			//in real life 31cm for 17cm with 40cm on z
+			var profondeur = 600;
+			var size_x = 500; //window.innerWidth ;
+			var size_y = 274//Math.ceil((500*17)/31); //window.innerHeight;
+			var size_z = Math.ceil((500*40)/31);
+
+			console.log(size_x, size_y,size_z)
+			console.log(window.innerWidth, window.innerHeight);
+
+
+
+			const geometry2 = new THREE.BoxGeometry( size_x, size_y, 0);
+			const material2 = new THREE.MeshBasicMaterial({color:"red", opacity: 0,transparent: true,});
+			const virtualWindow = new THREE.Mesh( geometry2, material2 );
+			virtualWindow.position.z -= 50
+			scene.add( virtualWindow );
+
+			var plane;
+
+			//top wall
+			var plane1 = new THREE.Mesh( new THREE.PlaneGeometry( size_x, profondeur, 5, 15 ), new THREE.MeshBasicMaterial( { color: 0x00000000, wireframe : true } ) );
+			plane1.rotation.x = Math.PI/2;
+			plane1.position.y = size_y/2;
+			plane1.position.z = 50-profondeur/2;
+			scene.add( plane1 );
+			
+			//left wall
+			var plane2 = new THREE.Mesh( new THREE.PlaneGeometry( profondeur, size_y, 15, 5 ), new THREE.MeshBasicMaterial( { color: 0x00000000, wireframe : true } ) );
+			plane2.rotation.y = Math.PI/2;
+			plane2.position.x = -size_x/2;
+			plane2.position.z = 50-profondeur/2;
+			scene.add( plane2 );
+			
+			//right wall
+			var plane3 = new THREE.Mesh( new THREE.PlaneGeometry( profondeur, size_y, 15, 5 ), new THREE.MeshBasicMaterial( { color: 0x00000000, wireframe : true	} ) );
+			plane3.rotation.y = -Math.PI/2;
+			plane3.position.x = size_x/2;
+			plane3.position.z = 50-profondeur/2;
+			scene.add( plane3 );
+			
+			//bottom wall
+			var plane4 = new THREE.Mesh( new THREE.PlaneGeometry( size_x, profondeur, 5, 15 ), new THREE.MeshBasicMaterial( { color: 0x00000000, wireframe : true	} ) );
+			plane4.rotation.x = -Math.PI/2;
+			plane4.position.y = -size_y/2;
+			plane4.position.z = 50-profondeur/2;
+			scene.add( plane4 );
+
+
+			let loader = new GLTFLoader();
+			loader.load('model/phone.gltf', function(gltf){
+				scene.add(gltf.scene);
+				gltf.scene.position.z = -60
+				gltf.scene.position.y = -140
+				gltf.scene.scale.set(200,200,200);
+				//gltf.scene.rotation.y = 90 * Math.PI / 180;
+			});
+			getLight(scene);
+
+			var stats = new Stats();
+			stats.domElement.style.position = 'absolute';
+			stats.domElement.style.top = '0px';
+			document.body.appendChild( stats.domElement );
+
+
+			const animate = function () {
+				renderer.render( scene, camera );
+				stats.update();
+				requestAnimationFrame( animate );
+			};
+
+			animate();
+			headtrackr.controllers.three.MyCameraControl(camera,virtualWindow, [0,0,size_z]);
+
+			var htracker = new headtrackr.Tracker({ui : true, headPosition : true});
+			htracker.init(videoInput, canvasInput);
+			htracker.start();
+			document.addEventListener('headtrackingEvent', function(event) {}, false);
+		</script>
+	</body>
+</html>

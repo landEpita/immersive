@@ -1,0 +1,33 @@
+<script src="js/headtrackr.js"></script>
+<canvas id="inputCanvas" width="320" height="240" style="display:none"></canvas>
+    	
+		 <video id="inputVideo" autoplay loop style="
+	        width:320px;
+            height:240px;
+            position:absolute;
+            left:20%;
+            margin-left:-300px;
+            top:30%;
+            margin-top:-200px">
+        </video>
+        <img src="../croix.png" style="position:absolute;
+            width:20px;
+            height:20px;
+			position:absolute;
+			left:20%;
+            margin-left:-300px;
+            top:30%;
+            margin-top:-200px" onclick="reduce_camera();"></img>
+    <script type="text/javascript">
+        var videoInput = document.getElementById('inputVideo');
+        var canvasInput = document.getElementById('inputCanvas');
+        var htracker = new headtrackr.Tracker({ui : true, headPosition : true});
+        htracker.init(videoInput, canvasInput);
+        htracker.start();
+	</script>
+<img src="pleinecranarrow.png" style="
+    width:20px;
+    height:20px;
+    position:absolute;
+    left:90%" onClick="toggleFullScreen(); ">
+</img>

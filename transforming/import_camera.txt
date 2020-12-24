@@ -1,0 +1,18 @@
+const size_x = 20;
+var real_distance = 60;
+const size_y = (size_x * window.innerHeight) / window.innerWidth;
+const size_z = (size_x * real_distance) / (window.innerWidth / 37.7953);
+
+console.log(window.innerWidth / 37.7953);
+const geometry2 = new THREE.BoxGeometry( size_x, size_y, 0);
+const material2 = new THREE.MeshBasicMaterial({color:"red", opacity: 0,transparent: true,});
+const virtualWindow = new THREE.Mesh( geometry2, material2 );
+scene.add( virtualWindow );
+
+
+camera.rotation.x = 0;
+camera.rotation.y = 0;
+camera.rotation.z = 0;
+
+camera.aspect = window.innerWidth / window.innerHeight;
+headtrackr.controllers.three.MyCameraControl(camera,virtualWindow, [0,0,size_z]);

@@ -1,0 +1,26 @@
+<script>
+		document.addEventListener('headtrackingEvent', function(event) {
+			}, false);
+		
+		function toggleFullScreen() {
+  			if (!document.fullscreenElement) {
+				var elem = document.getElementById("")
+				document.documentElement.requestFullscreen();
+			} else {
+				if (document.exitFullscreen) {
+				document.exitFullscreen();
+				}
+  			}
+		}
+		function reduce_camera()
+		{
+			var video = document.getElementById("inputVideo")
+				if (video.style.display === "none"){
+					video.style.display = ""
+				}
+				else{
+					video.style.display = "none"
+				}
+		}
+   
+    </script>
